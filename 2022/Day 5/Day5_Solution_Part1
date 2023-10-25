@@ -1,0 +1,57 @@
+import string
+
+filename = "Day 5\Day5_Input.txt"
+upper_letters = list(string.ascii_uppercase)
+crate_contents = []
+chunked_list = list()
+
+def data_collection(file):
+    with open(file, 'r') as data:
+        line_count = 0
+        for line in data:
+            char_col = 1
+            if '[' in line:
+                crate_contents.append(line[char_col])
+                for char_col in range(1,len(line)-1,4):
+                    print(len(line))
+                    char_col = char_col + 4
+                    if char_col < len(line):
+                        crate_contents.append(line[char_col])
+                
+        chunk_size = 9
+
+        for i in range(0, len(crate_contents), chunk_size):
+            chunked_list.append(crate_contents[i:i+chunk_size])
+
+
+def crate_locations():
+    for i in range(0, 8):
+        print(chunked_list[i])
+        #print(chunked_list)          
+
+
+def move_plans(file):
+        with open(file, 'r') as data:
+            for line in data:
+                if 'move' in line:
+                    line = line.strip()
+                    elements = line.split(" ")
+                    count, start, end = elements[1], elements[3], elements[5]
+                    print(count, start, end)
+                    x = 0
+                    y = 0
+                    trigger = 0
+                    while trigger == 0:
+                        if chunked_list[y][int(start)-1] != " ":
+                            print(chunked_list[y][int(start)-1])
+                            trigger = 1
+                        else:
+                            y += 1
+
+
+data_collection(filename)
+crate_locations()
+move_plans(filename)
+            # tmp_elf1, tmp_elf2 = line.strip().split(',')
+            # elf1.append(tmp_elf1)
+            # elf2.append(tmp_elf2)
